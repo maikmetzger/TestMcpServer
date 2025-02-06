@@ -3,7 +3,6 @@ import { Tool } from "@modelcontextprotocol/sdk/types.js";
 export const MULTIPLICATION: Tool = {
   name: "multiplication",
   description: "Multiply two numbers together",
-
   inputSchema: {
     type: "object",
     properties: {
@@ -19,12 +18,4 @@ export const MULTIPLICATION: Tool = {
     },
     required: ["a", "b"],
   },
-  handler: async ({ a, b }: { a: number; b: number }) => ({
-    content: [
-      {
-        type: "text",
-        text: `Product: ${a * b}`,
-      },
-    ],
-  }),
 };
