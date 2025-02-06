@@ -23,8 +23,6 @@
   },
   "devDependencies": {
     "@types/node": "^20.17.17",
-    "install": "^0.13.0",
-    "typescript": "^5.7.3",
-    "typescriptnpm": "^1.0.1"
+    "typescript": "^5.7.3"
   }
 }
