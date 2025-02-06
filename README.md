@@ -1,11 +1,15 @@
 # TestMcpServer
 
+# Introduction
+
+This example MCP Server implementation uses Anthropic's open source Model Context Protocol.
+I found the existing examples to be unbearable to look at, mostly very long one-filers and very hard to read through.
+With this more manageable approach I want users to find examples that are easier to understand and get into than what is currently out there.
+Let this be the foundation for your next MCP Server project.
+
+Requires Node, npm, typescript
+
 # Installation
-
-Requires:
-
-- NodeJS >16.0
-- npm
 
 run `npm install` upon cloning the repository.
 Check **package.json** for scripts to use.
