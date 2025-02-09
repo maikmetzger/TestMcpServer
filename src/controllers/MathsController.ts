@@ -52,6 +52,60 @@ class MathsController {
       };
     }
   }
+
+  async handleDivision(a: number, b: number) {
+    try {
+      const result = a / b;
+      return {
+        content: [
+          {
+            type: "text",
+            text: `Quotient: ${result}`,
+          },
+        ],
+        isError: false,
+      };
+    } catch (error) {
+      return {
+        content: [
+          {
+            type: "text",
+            text: `Error calculating quotient: ${
+              error instanceof Error ? error.message : String(error)
+            }`,
+          },
+        ],
+        isError: true,
+      };
+    }
+  }
+
+  async handleSubtraction(a: number, b: number) {
+    try {
+      const result = a - b;
+      return {
+        content: [
+          {
+            type: "text",
+            text: `Difference: ${result}`,
+          },
+        ],
+        isError: false,
+      };
+    } catch (error) {
+      return {
+        content: [
+          {
+            type: "text",
+            text: `Error calculating difference: ${
+              error instanceof Error ? error.message : String(error)
+            }`,
+          },
+        ],
+        isError: true,
+      };
+    }
+  }
 }
 
 export default MathsController;

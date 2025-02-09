@@ -22,7 +22,10 @@ const server = new Server(
 const toolController = new ToolController();
 
 server.setRequestHandler(ListToolsRequestSchema, async () => ({
-  tools: getToolDefinitions().MATHS_TOOLS,
+  tools: [
+    ...getToolDefinitions().MATHS_TOOLS,
+    ...getToolDefinitions().FILESYSTEM_TOOLS,
+  ],
 }));
 
 server.setRequestHandler(CallToolRequestSchema, async (request) => {

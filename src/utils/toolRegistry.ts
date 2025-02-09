@@ -1,4 +1,6 @@
+import FilesystemController from "../controllers/FilesystemController.js";
 import MathsController from "../controllers/MathsController.js";
+import FILESYSTEM_TOOLS from "../definitions/filesystem/main.js";
 import MATHS_TOOLS from "../definitions/maths/main.js";
 
 type ControllerMap = {
@@ -18,11 +20,25 @@ const controllerMap: ControllerMap = {
     controller: MathsController,
     handlerMethod: "handleMultiplication",
   },
+  division: {
+    controller: MathsController,
+    handlerMethod: "handleDivision",
+  },
+  subtraction: {
+    controller: MathsController,
+    handlerMethod: "handleSubtraction",
+  },
+  // Filesystem tools
+  tree: {
+    controller: FilesystemController,
+    handlerMethod: "handleTree",
+  },
 };
 
 export function getToolDefinitions() {
   return {
     MATHS_TOOLS,
+    FILESYSTEM_TOOLS,
   };
 }
 
