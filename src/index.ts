@@ -25,6 +25,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
   tools: [
     ...getToolDefinitions().MATHS_TOOLS,
     ...getToolDefinitions().FILESYSTEM_TOOLS,
+    ...getToolDefinitions().IMAGE_TOOLS,
   ],
 }));
 

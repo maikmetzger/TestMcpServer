@@ -9,6 +9,33 @@ Let this be the foundation for your next MCP Server project.
 
 Requires Node, npm, typescript
 
+# Features
+
+The MCP server currently provides the following tools:
+
+## Mathematical Tools
+
+- **Addition**: Add two numbers together
+- **Subtraction**: Subtract one number from another
+- **Multiplication**: Multiply two numbers together
+- **Division**: Divide one number by another (with division by zero protection)
+- **Square Root**: Calculate the square root of a number
+- **Power**: Raise a number to the power of another number
+- **Modulo**: Calculate the remainder when dividing one number by another
+- **Logarithm**: Calculate the logarithm of a number with a specified base
+- **Average**: Calculate the arithmetic mean of two numbers
+
+## Image Processing Tools
+
+- **Image Conversion**: Convert images between formats (PNG/JPG to WebP/AVIF) with compression
+- **Image Resize**: Resize images while optionally converting formats
+
+## Filesystem Tools
+
+- **Tree**: Get the directory tree structure of a specified path
+
+All tools include comprehensive error handling and input validation to ensure robust operation.
+
 # Installation
 
 run `npm install` upon cloning the repository.
