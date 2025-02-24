@@ -1,11 +1,9 @@
 import FilesystemController from "../controllers/FilesystemController.js";
 import MathsController from "../controllers/MathsController.js";
 import ImageController from "../controllers/ImageController.js";
-import GitController from "../controllers/GitController.js";
 import FILESYSTEM_TOOLS from "../definitions/filesystem/main.js";
 import MATHS_TOOLS from "../definitions/maths/main.js";
 import IMAGE_TOOLS from "../definitions/image/main.js";
-import GIT_TOOLS from "../definitions/git/main.js";
 
 type ControllerMap = {
   [key: string]: {
@@ -66,15 +64,6 @@ const controllerMap: ControllerMap = {
     controller: FilesystemController,
     handlerMethod: "handleTree",
   },
-  // Git tools
-  historySearch: {
-    controller: GitController,
-    handlerMethod: "handleHistorySearch",
-  },
-  getCommit: {
-    controller: GitController,
-    handlerMethod: "handleGetCommit",
-  },
 };
 
 export function getToolDefinitions() {
@@ -82,7 +71,6 @@ export function getToolDefinitions() {
     MATHS_TOOLS,
     FILESYSTEM_TOOLS,
     IMAGE_TOOLS,
-    GIT_TOOLS,
   };
 }
 
