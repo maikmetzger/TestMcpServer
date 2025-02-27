@@ -15,7 +15,9 @@
     "prepare": "npm run build",
     "watch": "tsc --watch",
     "inspector": "npx @modelcontextprotocol/inspector build/index.js",
-    "dev": "nodemon --watch src --ext ts --exec \"npm run build && npx @modelcontextprotocol/inspector build/index.js\""
+    "dev": "nodemon --watch src --ext ts --exec \"npm run build && npx @modelcontextprotocol/inspector build/index.js\"",
+    "sse": "node build/index.js --sse",
+    "dev-sse": "nodemon --watch src --ext ts --exec \"npm run build && npm run sse\""
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.4.1",
