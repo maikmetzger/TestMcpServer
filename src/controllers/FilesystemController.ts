@@ -260,6 +260,102 @@ class FilesystemController {
       };
     }
   }
+  
+  async handleRead(path: string, maxLines: number = 1000, startLine: number = 0) {
+    try {
+      // Normalize the path
+      const normalizedPath = this.validatePath(path);
+      
+      // Check if file exists and is readable
+      try {
+        const stats = await fs.stat(normalizedPath);
+        if (!stats.isFile()) {
+          throw new Error(`Path is not a file: ${normalizedPath}`);
+        }
+        await fs.access(normalizedPath);
+      } catch (error: any) {
+        throw new Error(
+          `Cannot access file: ${normalizedPath} - ${
+            error?.message || "Unknown error"
+          }`
+        );
+      }
+      
+      // Determine file type and handle binary files
+      const extension = extname(normalizedPath).toLowerCase();
+      const binaryExtensions = ['.pdf', '.png', '.jpg', '.jpeg', '.gif', '.zip', '.tar', '.gz', '.exe', '.dll', '.so'];
+      if (binaryExtensions.includes(extension)) {
+        return {
+          content: [
+            {
+              type: "text",
+              text: `Cannot read binary file: ${normalizedPath} (${extension} format)`,
+            },
+          ],
+          isError: true,
+        };
+      }
+      
+      // Check file size
+      const stats = await fs.stat(normalizedPath);
+      const MAX_SIZE = 10 * 1024 * 1024; // 10MB
+      if (stats.size > MAX_SIZE) {
+        return {
+          content: [
+            {
+              type: "text",
+              text: `File too large to read: ${normalizedPath} (${(stats.size / (1024 * 1024)).toFixed(2)}MB)`,
+            },
+          ],
+          isError: true,
+        };
+      }
+      
+      // Read the file contents with line limits
+      const fileStream = createReadStream(normalizedPath, { encoding: 'utf8' });
+      const rl = createInterface({
+        input: fileStream,
+        crlfDelay: Infinity
+      });
+      
+      let lineCount = 0;
+      let fileContent = "";
+      const endLine = startLine + maxLines;
+      
+      for await (const line of rl) {
+        if (lineCount >= startLine && lineCount < endLine) {
+          fileContent += line + "\n";
+        }
+        
+        lineCount++;
+        if (lineCount >= endLine) {
+          break;
+        }
+      }
+      
+      return {
+        content: [
+          {
+            type: "text",
+            text: fileContent,
+          },
+        ],
+        isError: false,
+      };
+    } catch (error: any) {
+      return {
+        content: [
+          {
+            type: "text",
+            text: `Error reading file: ${
+              error?.message || "Unknown error"
+            }`,
+          },
+        ],
+        isError: true,
+      };
+    }
+  }
 }
 
 export default FilesystemController;

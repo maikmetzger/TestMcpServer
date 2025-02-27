@@ -15,6 +15,7 @@
 - **Filesystem Tools**:
   - `tree` - Get directory structure in JSON format (for browsing)
   - `search` - Find file paths by name pattern or content matches (does NOT return file contents)
+  - `read` - Read the contents of a file at a specific path (with line limit options)
 
 ## Code Style Guidelines
 

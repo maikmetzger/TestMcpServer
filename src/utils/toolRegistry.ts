@@ -68,6 +68,10 @@ const controllerMap: ControllerMap = {
     controller: FilesystemController,
     handlerMethod: "handleSearch",
   },
+  read: {
+    controller: FilesystemController,
+    handlerMethod: "handleRead",
+  },
 };
 
 export function getToolDefinitions() {
