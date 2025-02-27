@@ -9,6 +9,13 @@
 - `npm run sse` - Run server with SSE transport on http://localhost:9999/sse
 - `npm run dev-sse` - Watch for changes and restart SSE server automatically
 
+## Tool Usage
+- **Maths Tools** - Perform arithmetic operations like addition, subtraction, etc.
+- **Image Tools** - Convert and resize images to different formats
+- **Filesystem Tools**:
+  - `tree` - Get directory structure in JSON format
+  - `search` - Search for files by name or content in a directory
+
 ## Code Style Guidelines
 
 ### TypeScript Patterns
