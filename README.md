@@ -34,6 +34,10 @@ The MCP server currently provides the following tools:
 
 - **Tree**: Get the directory tree structure of a specified path
 
+## Browser Tools
+
+- **Console Capture**: Captures browser console logs (errors, warnings, info, logs) from a specified URL
+
 All tools include comprehensive error handling and input validation to ensure robust operation.
 
 # Installation
@@ -47,6 +51,52 @@ I suggest the following however:
 Run `npm run dev` to watch changes on save and then rebuild and re-run inspector so you can test it in `localhost:5173`
 
 Before being able to run the MCP server in [Cursor](#add-mcp-server-to-cursor) it must be built first.
+
+# Testing MCP Tools
+
+This project includes a comprehensive testing framework for MCP tools using Jest. The tests ensure that all tools work correctly and handle edge cases properly.
+
+## Running Tests
+
+To run all tests:
+```bash
+npm test
+```
+
+To run tests with coverage report:
+```bash
+npm run test:coverage
+```
+
+To run specific tests:
+```bash
+npm test -- --testPathPattern=tests/maths/
+```
+
+## Test Structure
+
+- **Controller Tests**: Test controller handler methods directly (`tests/maths/`, `tests/browser/`, etc.)
+- **Filesystem Tests**: Use fixture directories for consistent testing
+- **Browser Tests**: Test browser interactions with test HTML pages
+- **MCP Simulation Tests**: Test tools through the MCP request/response flow
+- **Edge Case Tests**: Specialized tests for validation and error handling (`tests/maths/validation-edge-cases.test.ts`)
+
+## Testing Approach
+
+The test suite follows a comprehensive approach:
+1. **Basic functionality tests** - Verify that tools work correctly with valid inputs
+2. **Edge case tests** - Test boundary conditions like zero values, negative numbers, etc.
+3. **Error handling tests** - Verify proper error responses for invalid inputs
+4. **Validation tests** - Test input validation with null/undefined values, non-numeric inputs, etc.
+5. **Overflow tests** - Test behavior with extremely large values
+
+## Adding New Tests
+
+1. Create test files in the appropriate category folder under `tests/`
+2. Use the utility in `tests/utils/mcpTestHelper.ts` to simulate MCP tool calls
+3. For filesystem tests, use the fixtures in `tests/fixtures/`
+4. For browser tests, use or create test HTML files
+5. For validation edge cases, add tests to specialized validation test files
 
 # MCP Server - Adding New Tools
 

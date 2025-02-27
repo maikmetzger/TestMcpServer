@@ -2,10 +2,12 @@ import FilesystemController from "../controllers/FilesystemController.js";
 import MathsController from "../controllers/MathsController.js";
 import ImageController from "../controllers/ImageController.js";
 import ShopwareController from "../controllers/ShopwareController.js";
+import { BrowserController } from "../controllers/BrowserController.js";
 import FILESYSTEM_TOOLS from "../definitions/filesystem/main.js";
 import MATHS_TOOLS from "../definitions/maths/main.js";
 import IMAGE_TOOLS from "../definitions/image/main.js";
 import SHOPWARE_TOOLS from "../definitions/shopware/main.js";
+import { browserTools } from "../definitions/browser/main.js";
 
 type ControllerMap = {
   [key: string]: {
@@ -87,6 +89,11 @@ const controllerMap: ControllerMap = {
     controller: ShopwareController,
     handlerMethod: "handleBuild",
   },
+  // Browser tools
+  consoleCapture: {
+    controller: BrowserController,
+    handlerMethod: "handleConsoleCapture",
+  },
 };
 
 export function getToolDefinitions() {
@@ -95,6 +102,7 @@ export function getToolDefinitions() {
     FILESYSTEM_TOOLS,
     IMAGE_TOOLS,
     SHOPWARE_TOOLS,
+    BROWSER_TOOLS: browserTools,
   };
 }
 

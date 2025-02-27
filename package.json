@@ -17,18 +17,27 @@
     "inspector": "npx @modelcontextprotocol/inspector build/index.js",
     "dev": "nodemon --watch src --ext ts --exec \"npm run build && npx @modelcontextprotocol/inspector build/index.js\"",
     "sse": "node build/index.js --sse",
-    "dev-sse": "nodemon --watch src --ext ts --exec \"npm run build && npm run sse\""
+    "dev-sse": "nodemon --watch src --ext ts --exec \"npm run build && npm run sse\"",
+    "test": "jest --verbose --colors",
+    "test:coverage": "jest --coverage --verbose --colors"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.4.1",
+    "@types/glob": "^8.1.0",
     "canvas": "^3.1.0",
+    "glob": "^11.0.1",
+    "node-fetch": "^3.3.2",
+    "puppeteer": "^24.3.0",
     "sharp": "^0.33.5",
     "zod": "^3.24.1"
   },
   "devDependencies": {
+    "@types/jest": "^29.5.14",
     "@types/node": "^20.17.17",
     "@types/sharp": "^0.31.1",
+    "jest": "^29.7.0",
     "nodemon": "^3.1.9",
+    "ts-jest": "^29.2.6",
     "typescript": "^5.7.3"
   }
 }

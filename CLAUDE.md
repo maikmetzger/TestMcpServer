@@ -16,6 +16,8 @@
   - `tree` - Get directory structure in JSON format (for browsing)
   - `search` - Find file paths by name pattern or content matches (does NOT return file contents)
   - `read` - Read the contents of a file at a specific path (with line limit options)
+- **Browser Tools**:
+  - `consoleCapture` - Captures browser console logs from a specified URL, with options to filter by log level
 - **Shopware Tools**:
   - `shopwareExec` - Execute commands in a Shopware container
   - `shopwareLogs` - Read logs from a Shopware container
@@ -46,3 +48,36 @@
 - Use validateNumericInputs() and similar validation methods
 - Check for edge cases (division by zero, negative square roots)
 - Return consistent isError: true/false with descriptive messages
+
+## Testing
+
+### Running Tests
+- `npm test` - Run all tests
+- `npm run test:coverage` - Run tests with coverage report
+- `npm test -- --testPathPattern=tests/maths/` - Run specific category tests
+- `npm test -- --testPathPattern=tests/maths/addition.test.ts` - Run a specific test file
+
+### Test Structure
+- Each tool should have unit tests in the appropriate directory under `tests/`
+- Specialized validation test files for edge cases (e.g., `validation-edge-cases.test.ts`)
+- Use `tests/utils/mcpTestHelper.ts` to simulate MCP tool calls
+- Use fixture directories in `tests/fixtures/` for filesystem tests
+- For browser tests, use test HTML files
+
+### Writing Tests
+1. Test basic functionality first
+2. Test edge cases and error handling
+3. Test input validation (null, undefined, invalid types)
+4. Test extreme values and overflow conditions
+5. Use Jest's describe/it blocks to organize tests
+6. Test both direct controller calls and MCP-style calls
+
+### Coverage Goals
+- Statement coverage: 70%+ for overall codebase
+- Function coverage: 60%+ for all controllers
+- Line coverage: 70%+ for overall codebase
+- Branch coverage: 40%+ (aim to increase this over time)
+
+### Hard-to-Test Components
+- ShopwareController relies on external Docker containers and is difficult to test in isolation
+- For components with external dependencies, focus on testing the code you can control

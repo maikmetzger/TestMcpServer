@@ -32,6 +32,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
     ...getToolDefinitions().FILESYSTEM_TOOLS,
     ...getToolDefinitions().IMAGE_TOOLS,
     ...getToolDefinitions().SHOPWARE_TOOLS,
+    ...getToolDefinitions().BROWSER_TOOLS,
   ],
 }));
 
@@ -54,7 +55,7 @@ const useSSE = process.argv.includes("--sse");
 
 if (useSSE) {
   // Create and start HTTP server
-  const PORT = 9999;
+  const PORT = 10021;
   const sessions = new Map();
   
   const httpServer = http.createServer(async (req, res) => {
@@ -87,6 +88,8 @@ if (useSSE) {
           ...getToolDefinitions().MATHS_TOOLS,
           ...getToolDefinitions().FILESYSTEM_TOOLS,
           ...getToolDefinitions().IMAGE_TOOLS,
+          ...getToolDefinitions().SHOPWARE_TOOLS,
+          ...getToolDefinitions().BROWSER_TOOLS,
         ],
       }));
       
