@@ -13,8 +13,8 @@
 - **Maths Tools** - Perform arithmetic operations like addition, subtraction, etc.
 - **Image Tools** - Convert and resize images to different formats
 - **Filesystem Tools**:
-  - `tree` - Get directory structure in JSON format
-  - `search` - Search for files by name or content in a directory
+  - `tree` - Get directory structure in JSON format (for browsing)
+  - `search` - Find file paths by name pattern or content matches (does NOT return file contents)
 
 ## Code Style Guidelines
 

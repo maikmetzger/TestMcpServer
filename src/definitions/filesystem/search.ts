@@ -2,7 +2,7 @@ import { Tool } from "@modelcontextprotocol/sdk/types.js";
 
 export const SEARCH: Tool = {
   name: "search",
-  description: "Search for files in a directory by name or content",
+  description: "Search for files in a directory by name or content pattern (does NOT return file contents)",
   inputSchema: {
     type: "object",
     properties: {
@@ -12,12 +12,12 @@ export const SEARCH: Tool = {
       },
       pattern: {
         type: "string",
-        description: "Search pattern (glob pattern for filenames or regex for content)",
+        description: "Search pattern (glob pattern for filenames like '*.js' or regex for content like 'function')",
       },
       searchType: {
         type: "string",
         enum: ["filename", "content"],
-        description: "Type of search to perform: 'filename' for file name patterns, 'content' for file content search",
+        description: "Type of search to perform: 'filename' to match file names only, 'content' to find files containing text pattern",
       },
       maxResults: {
         type: "number",

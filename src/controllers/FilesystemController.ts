@@ -96,9 +96,9 @@ class FilesystemController {
             for await (const line of rl) {
               lineNumber++;
               if (regex.test(line)) {
+                // Only store file paths and line numbers, not content
                 results.push({
                   path: file,
-                  match: line.length > 100 ? line.substring(0, 100) + '...' : line,
                   line: lineNumber
                 });
                 
@@ -125,7 +125,8 @@ class FilesystemController {
             hasMore: results.length >= maxResults,
             searchPath: normalizedPath,
             searchPattern: pattern,
-            searchType
+            searchType,
+            note: "This tool only returns file paths and line numbers, not file contents. Use a file reading tool to view contents."
           }, null, 2) 
         }],
         isError: false,
