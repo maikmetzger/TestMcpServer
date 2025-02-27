@@ -10,6 +10,9 @@ import { getToolDefinitions, getToolHandler } from "./utils/toolRegistry.js";
 import http from "node:http";
 import url from "node:url";
 
+// Get tool definitions
+const toolDefs = getToolDefinitions();
+
 // Create MCP server with tools
 const server = new Server(
   {
@@ -18,7 +21,7 @@ const server = new Server(
   },
   {
     capabilities: {
-      tools: getToolDefinitions(),
+      tools: toolDefs,
     },
   }
 );
@@ -26,15 +29,23 @@ const server = new Server(
 const toolController = new ToolController();
 
 // Register request handlers
-server.setRequestHandler(ListToolsRequestSchema, async () => ({
-  tools: [
-    ...getToolDefinitions().MATHS_TOOLS,
-    ...getToolDefinitions().FILESYSTEM_TOOLS,
-    ...getToolDefinitions().IMAGE_TOOLS,
-    ...getToolDefinitions().SHOPWARE_TOOLS,
-    ...getToolDefinitions().BROWSER_TOOLS,
-  ],
-}));
+server.setRequestHandler(ListToolsRequestSchema, async () => {
+  // No console.log here to avoid interfering with STDIO transport
+  
+  // Merge all tool arrays into one flat array for the response
+  const flatToolsList = [
+    ...toolDefs.MATHS_TOOLS,
+    ...toolDefs.FILESYSTEM_TOOLS,
+    ...toolDefs.IMAGE_TOOLS,
+    ...toolDefs.SHOPWARE_TOOLS,
+    ...toolDefs.BROWSER_TOOLS,
+  ];
+  
+  // Just return the tools without logging
+  return {
+    tools: flatToolsList
+  };
+});
 
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   try {
@@ -77,21 +88,26 @@ if (useSSE) {
         },
         {
           capabilities: {
-            tools: getToolDefinitions(),
+            tools: toolDefs,
           },
         }
       );
       
       // Register the same handlers
-      mcpServer.setRequestHandler(ListToolsRequestSchema, async () => ({
-        tools: [
-          ...getToolDefinitions().MATHS_TOOLS,
-          ...getToolDefinitions().FILESYSTEM_TOOLS,
-          ...getToolDefinitions().IMAGE_TOOLS,
-          ...getToolDefinitions().SHOPWARE_TOOLS,
-          ...getToolDefinitions().BROWSER_TOOLS,
-        ],
-      }));
+      mcpServer.setRequestHandler(ListToolsRequestSchema, async () => {
+        // Merge all tool arrays into one flat array for the response
+        const flatToolsList = [
+          ...toolDefs.MATHS_TOOLS,
+          ...toolDefs.FILESYSTEM_TOOLS,
+          ...toolDefs.IMAGE_TOOLS,
+          ...toolDefs.SHOPWARE_TOOLS,
+          ...toolDefs.BROWSER_TOOLS,
+        ];
+        
+        return {
+          tools: flatToolsList
+        };
+      });
       
       mcpServer.setRequestHandler(CallToolRequestSchema, async (request) => {
         try {
@@ -144,6 +160,7 @@ if (useSSE) {
   });
 } else {
   // Use standard STDIO transport (default)
+  // No console.log to avoid interfering with STDIO
   const transport = new StdioServerTransport();
   await server.connect(transport);
 }

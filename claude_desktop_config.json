@@ -2,7 +2,10 @@
   "mcpServers": {
     "mcp-server": {
       "command": "node",
-      "args": ["/Users/YOUR_USER/mcp-server/build/index.js"]
+      "args": ["PATH_TO_YOUR_PROJECT/build/index.js"]
+    },
+    "mcp-server-sse": {
+      "url": "http://localhost:10021/sse"
     }
   }
 }
