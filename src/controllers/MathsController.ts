@@ -337,6 +337,69 @@ class MathsController {
       };
     }
   }
+  
+  async handleStandardDeviation(values: number[], type: 'population' | 'sample' = 'population') {
+    try {
+      // Validate that values is an array
+      if (!Array.isArray(values)) {
+        throw new Error("Values must be an array of numbers");
+      }
+      
+      // Validate each value is a number
+      for (let i = 0; i < values.length; i++) {
+        if (typeof values[i] !== "number" || !isFinite(values[i])) {
+          throw new Error(`Value at index ${i} must be a finite number`);
+        }
+      }
+      
+      // Need at least 1 value for population std dev, 2 for sample
+      if (values.length === 0) {
+        throw new Error("Array of values cannot be empty");
+      }
+      
+      if (type === 'sample' && values.length < 2) {
+        throw new Error("Sample standard deviation requires at least 2 values");
+      }
+      
+      // Calculate mean
+      const mean = values.reduce((sum, value) => sum + value, 0) / values.length;
+      
+      // Calculate sum of squared differences from the mean
+      const squaredDifferences = values.map(value => Math.pow(value - mean, 2));
+      const sumOfSquaredDifferences = squaredDifferences.reduce((sum, value) => sum + value, 0);
+      
+      // Calculate standard deviation
+      let standardDeviation: number;
+      
+      if (type === 'population') {
+        standardDeviation = Math.sqrt(sumOfSquaredDifferences / values.length);
+      } else { // sample
+        standardDeviation = Math.sqrt(sumOfSquaredDifferences / (values.length - 1));
+      }
+      
+      return {
+        content: [
+          {
+            type: "text",
+            text: `${type === 'population' ? 'Population' : 'Sample'} Standard Deviation: ${standardDeviation}`,
+          },
+        ],
+        isError: false,
+      };
+    } catch (error) {
+      return {
+        content: [
+          {
+            type: "text",
+            text: `Error calculating standard deviation: ${
+              error instanceof Error ? error.message : String(error)
+            }`,
+          },
+        ],
+        isError: true,
+      };
+    }
+  }
 }
 
 export default MathsController;

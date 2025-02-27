@@ -54,6 +54,10 @@ const controllerMap: ControllerMap = {
     controller: MathsController,
     handlerMethod: "handleAverage",
   },
+  standardDeviation: {
+    controller: MathsController,
+    handlerMethod: "handleStandardDeviation",
+  },
   // Image tools
   imageConversion: {
     controller: ImageController,

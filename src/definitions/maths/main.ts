@@ -7,6 +7,7 @@ import { POWER } from "./power.js";
 import { MODULO } from "./modulo.js";
 import { LOGARITHM } from "./logarithm.js";
 import { AVERAGE } from "./average.js";
+import { STANDARD_DEVIATION } from "./standardDeviation.js";
 
 const MATHS_TOOLS = [
   ADDITION,
@@ -18,6 +19,7 @@ const MATHS_TOOLS = [
   MODULO,
   LOGARITHM,
   AVERAGE,
+  STANDARD_DEVIATION,
 ] as const;
 
 export default MATHS_TOOLS;
