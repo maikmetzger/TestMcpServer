@@ -64,6 +64,10 @@ const controllerMap: ControllerMap = {
     controller: FilesystemController,
     handlerMethod: "handleTree",
   },
+  search: {
+    controller: FilesystemController,
+    handlerMethod: "handleSearch",
+  },
 };
 
 export function getToolDefinitions() {
