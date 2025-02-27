@@ -6,7 +6,7 @@
 - `npm run watch` - Watch TypeScript files and rebuild on change
 - `npm run inspector` - Run MCP inspector on the built server
 - `node build/index.js` - Run the server directly
-- `npm run sse` - Run server with SSE transport on http://localhost:9999/sse
+- `npm run sse` - Run server with SSE transport on http://localhost:10021/sse
 - `npm run dev-sse` - Watch for changes and restart SSE server automatically
 
 ## Tool Usage
@@ -16,6 +16,10 @@
   - `tree` - Get directory structure in JSON format (for browsing)
   - `search` - Find file paths by name pattern or content matches (does NOT return file contents)
   - `read` - Read the contents of a file at a specific path (with line limit options)
+- **Shopware Tools**:
+  - `shopwareExec` - Execute commands in a Shopware container
+  - `shopwareLogs` - Read logs from a Shopware container
+  - `shopwareBuild` - Build Shopware assets or clear cache in a container
 
 ## Code Style Guidelines
 
