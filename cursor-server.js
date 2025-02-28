@@ -9,30 +9,33 @@ import {
 } from "@modelcontextprotocol/sdk/types.js";
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { getToolDefinitions, getToolHandler } from "./build/utils/toolRegistry.js";
+import {
+  getToolDefinitions,
+  getToolHandler,
+} from "./build/utils/toolRegistry.js";
 
 // Disable console logging to avoid interference with the STDIO transport
 const originalConsoleLog = console.log;
 const originalConsoleError = console.error;
-console.log = () => {}; 
+console.log = () => {};
 console.error = () => {};
 
 // Only enable logging with DEBUG=true env var
-if (process.env.DEBUG === 'true') {
+if (process.env.DEBUG === "true") {
   console.log = originalConsoleLog;
   console.error = originalConsoleError;
 }
 
 // Simple error handler
-process.on('uncaughtException', (err) => {
-  if (process.env.DEBUG === 'true') {
-    originalConsoleError('Uncaught exception:', err);
+process.on("uncaughtException", (err) => {
+  if (process.env.DEBUG === "true") {
+    originalConsoleError("Uncaught exception:", err);
   }
 });
 
-process.on('unhandledRejection', (reason) => {
-  if (process.env.DEBUG === 'true') {
-    originalConsoleError('Unhandled rejection:', reason);
+process.on("unhandledRejection", (reason) => {
+  if (process.env.DEBUG === "true") {
+    originalConsoleError("Unhandled rejection:", reason);
   }
 });
 
@@ -40,7 +43,14 @@ async function main() {
   // Get tool definitions
   const toolDefs = getToolDefinitions();
 
-  // Create MCP server with tools
+  // Browser tools have been completely removed
+
+  if (process.env.DEBUG === "true") {
+    originalConsoleLog(
+      "Browser tools have been completely removed to prevent connection issues"
+    );
+  }
+
   const server = new Server(
     {
       name: "mcp-server",
@@ -60,28 +70,30 @@ async function main() {
       ...toolDefs.FILESYSTEM_TOOLS,
       ...toolDefs.IMAGE_TOOLS,
       ...toolDefs.SHOPWARE_TOOLS,
-      ...toolDefs.BROWSER_TOOLS,
     ];
-    
+
     return {
-      tools: flatToolsList
+      tools: flatToolsList,
     };
   });
 
   server.setRequestHandler(CallToolRequestSchema, async (request) => {
     try {
-      const handler = getToolHandler(request.params.name);
+      const toolName = request.params.name;
+      const handler = getToolHandler(toolName);
       if (!handler) {
         return {
           content: [
             {
               type: "text",
-              text: `Unknown tool: ${request.params.name}`,
-            }
+              text: `Unknown tool: ${toolName}`,
+            },
           ],
-          isError: true
+          isError: true,
         };
       }
+
+      // Tool handling - browser tools will return disabled handlers
       return await handler(request.params.arguments);
     } catch (error) {
       return {
@@ -89,9 +101,9 @@ async function main() {
           {
             type: "text",
             text: `Error: ${error?.message || "Unknown error"}`,
-          }
+          },
         ],
-        isError: true
+        isError: true,
       };
     }
   });
@@ -101,9 +113,9 @@ async function main() {
   await server.connect(transport);
 }
 
-main().catch(err => {
-  if (process.env.DEBUG === 'true') {
-    originalConsoleError('Failed to start server:', err);
+main().catch((err) => {
+  if (process.env.DEBUG === "true") {
+    originalConsoleError("Failed to start server:", err);
   }
   process.exit(1);
 });

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SSE Test Client</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+      }
+      h1 {
+        color: #333;
+      }
+      #status {
+        padding: 10px;
+        margin: 10px 0;
+        font-weight: bold;
+        border-radius: 5px;
+      }
+      .connected {
+        background-color: #dff0d8;
+        color: #3c763d;
+      }
+      .error {
+        background-color: #f2dede;
+        color: #a94442;
+      }
+      .connecting {
+        background-color: #fcf8e3;
+        color: #8a6d3b;
+      }
+      #events {
+        border: 1px solid #ddd;
+        padding: 10px;
+        height: 300px;
+        overflow-y: auto;
+        font-family: monospace;
+        background-color: #f9f9f9;
+        margin-top: 10px;
+      }
+      #controls {
+        margin: 10px 0;
+      }
+      button {
+        padding: 5px 10px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>SSE Test Client</h1>
+    <div id="status" class="connecting">Connecting...</div>
+    <div id="controls">
+      <button id="reconnect">Reconnect</button>
+    </div>
+    <div id="events"></div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const statusDiv = document.getElementById("status");
+        const eventsDiv = document.getElementById("events");
+        const reconnectBtn = document.getElementById("reconnect");
+        let evtSource = null;
+        let sessionId = null;
+
+        function connectSSE() {
+          if (evtSource) {
+            evtSource.close();
+          }
+
+          statusDiv.className = "connecting";
+          statusDiv.textContent = "Connecting...";
+          addEvent("Attempting to connect to SSE server...");
+
+          // Connect to SSE endpoint
+          evtSource = new EventSource("http://localhost:10022/sse");
+
+          evtSource.onopen = () => {
+            statusDiv.className = "connected";
+            statusDiv.textContent = "Connected to SSE server";
+            addEvent("Connected successfully");
+          };
+
+          evtSource.onerror = (err) => {
+            statusDiv.className = "error";
+            statusDiv.textContent = "Error connecting to SSE server";
+            addEvent("Connection error: " + JSON.stringify(err));
+
+            // Auto-reconnect after 3 seconds
+            setTimeout(() => {
+              if (evtSource.readyState === EventSource.CLOSED) {
+                addEvent("Attempting to reconnect automatically...");
+                connectSSE();
+              }
+            }, 3000);
+          };
+
+          // Listen for the "endpoint" event which provides the session ID
+          evtSource.addEventListener("endpoint", (event) => {
+            const endpoint = event.data;
+            addEvent(`Received endpoint: ${endpoint}`);
+
+            // Extract session ID from endpoint URL
+            sessionId = new URLSearchParams(endpoint.split("?")[1]).get(
+              "sessionId"
+            );
+            if (sessionId) {
+              addEvent(`Session ID: ${sessionId}`);
+
+              // Send a test message to prove it works
+              setTimeout(() => {
+                sendTestMessage(endpoint, sessionId);
+              }, 1000);
+            }
+          });
+        }
+
+        function sendTestMessage(endpoint, sessionId) {
+          addEvent("Sending test message...");
+
+          // Create message to list tools
+          const message = {
+            jsonrpc: "2.0",
+            id: 1,
+            method: "listTools",
+            params: {},
+          };
+
+          // Post message to the endpoint
+          fetch(`http://localhost:10022${endpoint}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(message),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              addEvent("Response received: " + JSON.stringify(data, null, 2));
+            })
+            .catch((error) => {
+              addEvent("Error sending message: " + error.message);
+            });
+        }
+
+        function addEvent(text) {
+          const eventDiv = document.createElement("div");
+          eventDiv.textContent = `[${new Date().toISOString()}] ${text}`;
+          eventsDiv.appendChild(eventDiv);
+          eventsDiv.scrollTop = eventsDiv.scrollHeight;
+        }
+
+        // Initialize connection
+        connectSSE();
+
+        // Setup reconnect button
+        reconnectBtn.addEventListener("click", () => {
+          addEvent("Manual reconnection requested");
+          connectSSE();
+        });
+      });
+    </script>
+  </body>
+</html>
