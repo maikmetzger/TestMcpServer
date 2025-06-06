@@ -2,10 +2,21 @@ import FilesystemController from "../controllers/FilesystemController.js";
 import MathsController from "../controllers/MathsController.js";
 import ImageController from "../controllers/ImageController.js";
 import ShopwareController from "../controllers/ShopwareController.js";
+import GitController from "../controllers/GitController.js";
+import TextController from "../controllers/TextController.js";
+import NetworkController from "../controllers/NetworkController.js";
+import DateTimeController from "../controllers/DateTimeController.js";
+import SecurityController from "../controllers/SecurityController.js";
+
 import FILESYSTEM_TOOLS from "../definitions/filesystem/main.js";
 import MATHS_TOOLS from "../definitions/maths/main.js";
 import IMAGE_TOOLS from "../definitions/image/main.js";
 import SHOPWARE_TOOLS from "../definitions/shopware/main.js";
+import GIT_TOOLS from "../definitions/git/main.js";
+import TEXT_TOOLS from "../definitions/text/main.js";
+import NETWORK_TOOLS from "../definitions/network/main.js";
+import DATETIME_TOOLS from "../definitions/datetime/main.js";
+import SECURITY_TOOLS from "../definitions/security/main.js";
 
 type ControllerMap = {
   [key: string]: {
@@ -65,6 +76,51 @@ const controllerMap: ControllerMap = {
     controller: ImageController,
     handlerMethod: "handleImageResize",
   },
+  // Git tools
+  commitHistory: {
+    controller: GitController,
+    handlerMethod: "handleCommitHistory",
+  },
+  diff: {
+    controller: GitController,
+    handlerMethod: "handleDiff",
+  },
+  // Text tools
+  wordCount: {
+    controller: TextController,
+    handlerMethod: "handleWordCount",
+  },
+  searchReplace: {
+    controller: TextController,
+    handlerMethod: "handleSearchReplace",
+  },
+  // Network tools
+  httpRequest: {
+    controller: NetworkController,
+    handlerMethod: "handleHttpRequest",
+  },
+  ping: {
+    controller: NetworkController,
+    handlerMethod: "handlePing",
+  },
+  // DateTime tools
+  timestampConvert: {
+    controller: DateTimeController,
+    handlerMethod: "handleTimestampConvert",
+  },
+  schedule: {
+    controller: DateTimeController,
+    handlerMethod: "handleSchedule",
+  },
+  // Security tools
+  hash: {
+    controller: SecurityController,
+    handlerMethod: "handleHash",
+  },
+  checksum: {
+    controller: SecurityController,
+    handlerMethod: "handleChecksum",
+  },
   // Filesystem tools
   tree: {
     controller: FilesystemController,
@@ -99,9 +155,13 @@ export function getToolDefinitions() {
     FILESYSTEM_TOOLS,
     IMAGE_TOOLS,
     SHOPWARE_TOOLS,
+    GIT_TOOLS,
+    TEXT_TOOLS,
+    NETWORK_TOOLS,
+    DATETIME_TOOLS,
+    SECURITY_TOOLS,
   };
 }
-
 export function getToolHandler(toolName: string) {
   const mapping = controllerMap[toolName];
   if (!mapping) {

@@ -38,6 +38,11 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
     ...toolDefs.FILESYSTEM_TOOLS,
     ...toolDefs.IMAGE_TOOLS,
     ...toolDefs.SHOPWARE_TOOLS,
+    ...toolDefs.GIT_TOOLS,
+    ...toolDefs.TEXT_TOOLS,
+    ...toolDefs.NETWORK_TOOLS,
+    ...toolDefs.DATETIME_TOOLS,
+    ...toolDefs.SECURITY_TOOLS,
   ];
 
   // Just return the tools without logging
@@ -95,12 +100,17 @@ if (useSSE) {
       // Register the same handlers
       mcpServer.setRequestHandler(ListToolsRequestSchema, async () => {
         // Merge all tool arrays into one flat array for the response
-        const flatToolsList = [
-          ...toolDefs.MATHS_TOOLS,
-          ...toolDefs.FILESYSTEM_TOOLS,
-          ...toolDefs.IMAGE_TOOLS,
-          ...toolDefs.SHOPWARE_TOOLS,
-        ];
+  const flatToolsList = [
+    ...toolDefs.MATHS_TOOLS,
+    ...toolDefs.FILESYSTEM_TOOLS,
+    ...toolDefs.IMAGE_TOOLS,
+    ...toolDefs.SHOPWARE_TOOLS,
+    ...toolDefs.GIT_TOOLS,
+    ...toolDefs.TEXT_TOOLS,
+    ...toolDefs.NETWORK_TOOLS,
+    ...toolDefs.DATETIME_TOOLS,
+    ...toolDefs.SECURITY_TOOLS,
+  ];
 
         return {
           tools: flatToolsList,
