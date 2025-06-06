@@ -33,6 +33,26 @@ The MCP server currently provides the following tools:
 ## Filesystem Tools
 
 - **Tree**: Get the directory tree structure of a specified path
+## Git Tools
+- **Commit History**: Show recent git commits
+- **Diff**: Show diffs between revisions
+
+## Text Utilities
+- **Word Count**: Count lines, words and characters
+- **Search Replace**: Perform search and replace on files
+
+## Network Tools
+- **HTTP Request**: Perform a simple HTTP request
+- **Ping**: Check connectivity to a host
+
+## Date/Time Utilities
+- **Timestamp Convert**: Convert between timestamps and dates
+- **Schedule**: Run a command after a short delay
+
+## Security Tools
+- **Hash**: Generate hashes for text or files
+- **Checksum**: Verify file checksums
+
 
 ## Browser Tools
 
