@@ -158,6 +158,14 @@ const controllerMap: ControllerMap = {
     controller: WorkflowController,
     handlerMethod: "handlePerformHttpRequest",
   },
+  confirmPing: {
+    controller: WorkflowController,
+    handlerMethod: "handleConfirmPing",
+  },
+  performPing: {
+    controller: WorkflowController,
+    handlerMethod: "handlePerformPing",
+  },
 };
 
 export function getToolDefinitions() {

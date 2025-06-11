@@ -1,8 +1,10 @@
+
 import { exec } from "child_process";
 import { promisify } from "util";
-
+import { randomUUID } from "crypto";
+import NetworkController from "./NetworkController.js";
 const execPromise = promisify(exec);
-
+const tokenStore = new Map<string, string>();
 /**
  * Controller handling simple workflow-based operations where a first
  * action returns a token that must be confirmed later to retrieve the
@@ -54,39 +56,25 @@ class WorkflowController {
     };
   }
 
-  async handlePerformPing(host: string) {
-    try {
-      const { stdout } = await execPromise(`ping -c 1 ${host}`);
-      const token = this.generateToken();
-      this.tokenStore.set(token, { type: "ping", data: stdout.trim() });
-      return {
-        content: [{ type: "text", text: token }],
-        isError: false,
-      };
-    } catch (error: any) {
-      return {
-        content: [
-          { type: "text", text: `Error pinging host: ${error?.message || "Unknown error"}` },
-        ],
-        isError: true,
-      };
-    }
-  }
-
-  async handleConfirmPing(token: string) {
-    const entry = this.tokenStore.get(token);
-    if (!entry || entry.type !== "ping") {
+  async handlePerformPing(token: string) {
+    const host = tokenStore.get(token);
+    if (!host) {
       return {
         content: [{ type: "text", text: "Invalid or expired token" }],
         isError: true,
       };
     }
-    this.tokenStore.delete(token);
-    return {
-      content: [{ type: "text", text: entry.data }],
-      isError: false,
-    };
+    tokenStore.delete(token);
+    const network = new NetworkController();
+    return await network.handlePing(host);
   }
+
+  async handleConfirmPing(host: string) {
+    const token = randomUUID();
+    tokenStore.set(token, host);
+    return { content: [{ type: "text", text: token }], isError: false };
+  }
+
 }
 
 export default WorkflowController;
