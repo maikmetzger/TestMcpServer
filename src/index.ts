@@ -43,6 +43,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
     ...toolDefs.NETWORK_TOOLS,
     ...toolDefs.DATETIME_TOOLS,
     ...toolDefs.SECURITY_TOOLS,
+    ...toolDefs.WORKFLOW_TOOLS,
   ];
 
   // Just return the tools without logging
@@ -110,6 +111,7 @@ if (useSSE) {
     ...toolDefs.NETWORK_TOOLS,
     ...toolDefs.DATETIME_TOOLS,
     ...toolDefs.SECURITY_TOOLS,
+    ...toolDefs.WORKFLOW_TOOLS,
   ];
 
         return {

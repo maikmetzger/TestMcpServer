@@ -7,6 +7,7 @@ import TextController from "../controllers/TextController.js";
 import NetworkController from "../controllers/NetworkController.js";
 import DateTimeController from "../controllers/DateTimeController.js";
 import SecurityController from "../controllers/SecurityController.js";
+import WorkflowController from "../controllers/WorkflowController.js";
 
 import FILESYSTEM_TOOLS from "../definitions/filesystem/main.js";
 import MATHS_TOOLS from "../definitions/maths/main.js";
@@ -17,6 +18,7 @@ import TEXT_TOOLS from "../definitions/text/main.js";
 import NETWORK_TOOLS from "../definitions/network/main.js";
 import DATETIME_TOOLS from "../definitions/datetime/main.js";
 import SECURITY_TOOLS from "../definitions/security/main.js";
+import WORKFLOW_TOOLS from "../definitions/workflow/main.js";
 
 type ControllerMap = {
   [key: string]: {
@@ -147,6 +149,15 @@ const controllerMap: ControllerMap = {
     controller: ShopwareController,
     handlerMethod: "handleBuild",
   },
+  // Workflow tools
+  confirmHttpRequest: {
+    controller: WorkflowController,
+    handlerMethod: "handleConfirmHttpRequest",
+  },
+  performHttpRequest: {
+    controller: WorkflowController,
+    handlerMethod: "handlePerformHttpRequest",
+  },
 };
 
 export function getToolDefinitions() {
@@ -160,6 +171,7 @@ export function getToolDefinitions() {
     NETWORK_TOOLS,
     DATETIME_TOOLS,
     SECURITY_TOOLS,
+    WORKFLOW_TOOLS,
   };
 }
 export function getToolHandler(toolName: string) {
